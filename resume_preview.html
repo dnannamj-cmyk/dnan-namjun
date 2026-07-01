@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resume — ดีนาน น้ำจันทร์ | Dnan Namjan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* =============================================
+       DESIGN TOKENS
+    ============================================= */
+    :root {
+      --bg:          #0A0F1A;
+      --bg-card:     #111927;
+      --bg-alt:      #0E1525;
+      --border:      #1E2D45;
+      --border-h:    #2A4060;
+      --accent:      #38BDF8;
+      --accent-dim:  rgba(56,189,248,0.12);
+      --green:       #4ADE80;
+      --purple:      #A78BFA;
+      --text:        #E2EAF4;
+      --text-2:      #7A9BB5;
+      --text-3:      #3D5A78;
+      --font:        'Prompt', sans-serif;
+      --mono:        'JetBrains Mono', monospace;
+    }
+
+    /* =============================================
+       RESET
+    ============================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* =============================================
+       TOP BAR (nav back + actions)
+    ============================================= */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(10,15,26,0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.85rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .back-link {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--text-2);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--accent); text-decoration: none; }
+    .bar-actions { display: flex; gap: 0.75rem; }
+    .btn-print {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: var(--accent);
+      color: #0A0F1A;
+      border: none;
+      padding: 0.55rem 1.2rem;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      font-weight: 500;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .btn-print:hover { opacity: 0.85; transform: translateY(-1px); }
+    .lang-btn {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text-2);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.75rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-right: 0.5rem;
+    }
+    .lang-btn:hover { background: var(--bg-alt); border-color: var(--border-h); }
+    .lang-btn.active {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: var(--accent-dim);
+    }
+
+    /* =============================================
+       PAGE WRAPPER
+    ============================================= */
+    .page {
+      max-width: 900px;
+      margin: 2.5rem auto 4rem;
+      padding: 0 2rem;
+    }
+
+    /* =============================================
+       HEADER
+    ============================================= */
+    .resume-header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 2rem;
+      align-items: start;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 2rem;
+    }
+    .name-block {}
+    .name-en {
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+    }
+    .name-th {
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--text-2);
+      margin-top: 0.2rem;
+    }
+    .title-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .role-tag {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--accent);
+      background: var(--accent-dim);
+      border: 1px solid rgba(56,189,248,0.25);
+      padding: 0.25rem 0.7rem;
+      border-radius: 3px;
+    }
+    .avail-tag {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--green);
+      background: rgba(74,222,128,0.08);
+      border: 1px solid rgba(74,222,128,0.2);
+      padding: 0.25rem 0.7rem;
+      border-radius: 100px;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .dot-pulse {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(74,222,128,0.5); }
+      50%      { box-shadow: 0 0 0 4px rgba(74,222,128,0); }
+    }
+
+    /* Contact info (right side) */
+    .contact-block {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: flex-end;
+    }
+    .contact-row {
+      font-size: 0.82rem;
+      color: var(--text-2);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .contact-row svg { flex-shrink: 0; }
+    .contact-row a { color: var(--accent); }
+
+    /* =============================================
+       TWO-COLUMN LAYOUT
+    ============================================= */
+    .resume-body {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 2.5rem;
+      align-items: start;
+    }
+    .col-main {}
+    .col-side {}
+
+    /* =============================================
+       SECTION
+    ============================================= */
+    .section { margin-bottom: 2rem; }
+    .section:last-child { margin-bottom: 0; }
+
+    .sec-label {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--accent);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+    .sec-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* Summary */
+    .summary-text {
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--text-2);
+      line-height: 1.85;
+    }
+    .summary-text strong { color: var(--text); font-weight: 500; }
+
+    /* Education timeline */
+    .edu-list { display: flex; flex-direction: column; gap: 1.25rem; }
+    .edu-item {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 0 1rem;
+    }
+    .edu-year {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text-3);
+      padding-top: 0.2rem;
+    }
+    .edu-main {}
+    .edu-school {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.4;
+    }
+    .edu-level {
+      font-size: 0.78rem;
+      color: var(--text-2);
+      margin-top: 0.15rem;
+    }
+    .edu-gpa {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--green);
+      margin-top: 0.3rem;
+    }
+
+    /* Experience / Activity items */
+    .exp-list { display: flex; flex-direction: column; gap: 1.5rem; }
+    .exp-item {}
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 0.3rem;
+    }
+    .exp-title {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .exp-date {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--text-3);
+      white-space: nowrap;
+      padding-top: 0.1rem;
+    }
+    .exp-org {
+      font-size: 0.78rem;
+      color: var(--accent);
+      margin-bottom: 0.35rem;
+    }
+    .exp-desc {
+      font-size: 0.82rem;
+      font-weight: 300;
+      color: var(--text-2);
+      line-height: 1.75;
+    }
+    .exp-award {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: #FCD34D;
+      background: rgba(252,211,77,0.08);
+      border: 1px solid rgba(252,211,77,0.2);
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      margin-top: 0.35rem;
+    }
+
+    /* Projects */
+    .proj-list { display: flex; flex-direction: column; gap: 1.25rem; }
+    .proj-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1rem 1.25rem;
+      transition: border-color 0.2s;
+    }
+    .proj-item:hover { border-color: var(--border-h); }
+    .proj-title {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+    .proj-desc {
+      font-size: 0.8rem;
+      color: var(--text-2);
+      line-height: 1.7;
+      margin-bottom: 0.6rem;
+    }
+    .stack-row { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .stag {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--text-3);
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 0.1rem 0.45rem;
+    }
+
+    /* SIDE: Skills */
+    .skill-group { margin-bottom: 1.5rem; }
+    .skill-group:last-child { margin-bottom: 0; }
+    .skill-group-title {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--text-3);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .tag {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--accent);
+      background: var(--accent-dim);
+      border: 1px solid rgba(56,189,248,0.18);
+      border-radius: 3px;
+      padding: 0.2rem 0.55rem;
+    }
+
+    /* SIDE: Certs */
+    .cert-list { display: flex; flex-direction: column; gap: 0.85rem; }
+    .cert-item {
+      border-left: 2px solid var(--border);
+      padding-left: 0.85rem;
+    }
+    .cert-issuer {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--accent);
+      margin-bottom: 0.15rem;
+    }
+    .cert-name {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.4;
+    }
+    .cert-date {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--text-3);
+      margin-top: 0.15rem;
+    }
+
+    /* SIDE: Personal */
+    .info-table { width: 100%; font-size: 0.8rem; }
+    .info-table tr td:first-child {
+      color: var(--text-3);
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      padding: 0.3rem 0.75rem 0.3rem 0;
+      white-space: nowrap;
+      vertical-align: top;
+    }
+    .info-table tr td:last-child {
+      color: var(--text-2);
+      padding: 0.3rem 0;
+      line-height: 1.5;
+    }
+
+    /* SIDE: Hobbies */
+    .hobby-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .hobby {
+      font-size: 0.75rem;
+      color: var(--text-2);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 0.2rem 0.55rem;
+    }
+
+    /* =============================================
+       PRINT STYLES
+    ============================================= */
+    @media print {
+      @page { size: A4; margin: 15mm 18mm; }
+
+      body {
+        background: #fff !important;
+        color: #111 !important;
+      }
+      .top-bar { display: none !important; }
+      .page { margin: 0 !important; padding: 0 !important; max-width: 100% !important; }
+
+      :root {
+        --bg: #fff;
+        --bg-card: #f7f7f7;
+        --bg-alt: #f4f4f4;
+        --border: #ddd;
+        --border-h: #bbb;
+        --accent: #0369a1;
+        --accent-dim: #e0f2fe;
+        --green: #15803d;
+        --text: #111;
+        --text-2: #444;
+        --text-3: #888;
+      }
+
+      .resume-body { gap: 1.5rem !important; }
+      .proj-item, .cert-item, .exp-item, .edu-item { break-inside: avoid; }
+      .section { margin-bottom: 1.2rem !important; }
+    }
+
+    /* =============================================
+       RESPONSIVE
+    ============================================= */
+    @media (max-width: 720px) {
+      .resume-header { grid-template-columns: 1fr; }
+      .contact-block { align-items: flex-start; }
+      .resume-body { grid-template-columns: 1fr; }
+      .col-side { border-top: 1px solid var(--border); padding-top: 1.5rem; }
+    }
+
+    /* =============================================
+       LANGUAGE SWITCHING
+    ============================================= */
+    [data-lang-th], [data-lang-en] { display: none; }
+    [data-lang-th] { display: inline; }
+    html[lang="en"] [data-lang-th] { display: none !important; }
+    html[lang="en"] [data-lang-en] { display: inline !important; }
+    html[lang="th"] [data-lang-th] { display: inline !important; }
+    html[lang="th"] [data-lang-en] { display: none !important; }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <a href="index.html" class="back-link" data-translate="กลับหน้าพอร์ตโฟลิโอ / Back to Portfolio">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 5l-7 7 7 7"/>
+      </svg>
+      <span data-lang-th>กลับหน้าพอร์ตโฟลิโอ</span><span data-lang-en>Back to Portfolio</span>
+    </a>
+    <div class="bar-actions">
+      <button class="lang-btn" data-lang="th" onclick="setLanguage('th')">TH</button>
+      <button class="lang-btn" data-lang="en" onclick="setLanguage('en')">EN</button>
+      <button class="btn-print" onclick="window.print()" data-translate="บันทึกเป็น PDF / Save as PDF">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/>
+        </svg>
+        <span data-lang-th>บันทึกเป็น PDF</span><span data-lang-en>Save as PDF</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="page">
+
+    <!-- =================== HEADER =================== -->
+    <div class="resume-header">
+      <div class="name-block">
+        <div class="name-en"><span data-lang-en>Dnan Namjan</span><span data-lang-th>นายดีนาน น้ำจันทร์ (ซี)</span></div>
+        <div class="title-row">
+          <span class="role-tag"><span data-lang-th>นักศึกษา IT (ปวส.) · SBAC</span><span data-lang-en>IT Student (ปวส.) · SBAC</span></span>
+          <span class="role-tag">IT Support</span>
+          <span class="role-tag">IoT</span>
+          <span class="avail-tag" data-translate="พร้อมรับงาน / Available">
+            <span class="dot-pulse"></span>
+            <span data-lang-th>พร้อมรับงาน</span><span data-lang-en>Available</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="contact-block">
+        <div class="contact-row">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.23h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.91A16 16 0 0 0 15.09 16l.91-.85a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          091-021-1765
+        </div>
+        <div class="contact-row">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <a href="mailto:dnanan234@gmail.com">dnanan234@gmail.com</a>
+        </div>
+        <div class="contact-row">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span data-lang-th>ลำลูกกา, ปทุมธานี</span><span data-lang-en>Lam Luk Ka, Pathum Thani</span>
+        </div>
+        <div class="contact-row">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.09.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.645.35-1.087.636-1.337-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+          <a href="https://github.com/" target="_blank">github.com/dnan-namjan</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================== BODY =================== -->
+    <div class="resume-body">
+
+      <!-- ===== MAIN COLUMN ===== -->
+      <div class="col-main">
+
+        <!-- SUMMARY -->
+        <div class="section">
+          <div class="sec-label" data-translate="เกี่ยวกับฉัน / Summary"><span data-lang-th>เกี่ยวกับฉัน</span><span data-lang-en>Summary</span></div>
+          <p class="summary-text">
+            <span data-lang-th>นักศึกษา <strong>ปวส. สาขาเทคโนโลยีสารสนเทศ</strong> วิทยาลัยเทคโนโลยีสยามบริหารธุรกิจ (SBAC) GPA 3.80 มีทักษะด้าน IT Support, IoT (Arduino), และการพัฒนาเว็บไซต์ด้วย HTML/CSS/PHP ผ่านการอบรม Google Professional Certificate 3 หลักสูตร และเคยเป็นตัวแทนแข่งขัน World Skills รวมถึงได้รับรางวัลรองชนะเลิศอันดับ 2 จาก SBAC Startup Boot Camp 2025</span>
+            <span data-lang-en>IT student majoring in Information Technology at SBAC with GPA 3.80. Skilled in IT Support, IoT (Arduino), and web development (HTML/CSS/PHP). Completed 3 Google Professional Certificates and represented Thailand in World Skills competition. Also won 2nd Runner-Up at SBAC Startup Boot Camp 2025.</span>
+          </p>
+        </div>
+
+        <!-- EDUCATION -->
+        <div class="section">
+          <div class="sec-label" data-translate="ประวัติการศึกษา / Education"><span data-lang-th>ประวัติการศึกษา</span><span data-lang-en>Education</span></div>
+          <div class="edu-list">
+            <div class="edu-item">
+              <div class="edu-year">2567<br/>2025</div>
+              <div class="edu-main">
+                <div class="edu-school" data-translate="วิทยาลัยเทคโนโลยีสยามบริหารธุรกิจ (SBAC)<br/><span style=\"font-weight:400;font-size:0.8rem;color:var(--text-2);\">Siam Business Administration Technological College</span>"><span data-lang-th>วิทยาลัยเทคโนโลยีสยามบริหารธุรกิจ (SBAC)</span><span data-lang-en style="font-weight:400;font-size:0.8rem;color:var(--text-2);">Siam Business Administration Technological College</span></div>
+                <div class="edu-level" data-translate="ประกาศนียบัตรวิชาชีพชั้นสูง (ปวส.) · สาขาเทคโนโลยีสารสนเทศ<br/>Higher Vocational Certificate · Information Technology"><span data-lang-th>ประกาศนียบัตรวิชาชีพชั้นสูง (ปวส.) · สาขาเทคโนโลยีสารสนเทศ</span><span data-lang-en>Higher Vocational Certificate · Information Technology</span></div>
+                <div class="edu-gpa" data-translate="GPA 3.80 / 4.00 · หน่วยกิตสะสม 105">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                  <span data-lang-th>GPA 3.80 / 4.00 · หน่วยกิตสะสม 105</span><span data-lang-en>GPA 3.80 / 4.00 · 105 Credits</span>
+                </div>
+              </div>
+            </div>
+            <div class="edu-item">
+              <div class="edu-year">2564<br/>2021</div>
+              <div class="edu-main">
+                <div class="edu-school"><span data-lang-th>โรงเรียนสายไหม (ทัสนารมย์อนุสรณ์)</span><span data-lang-en>Sai Mai School (Tussanarom Anusorn)</span></div>
+                <div class="edu-level"><span data-lang-th>ระดับมัธยมศึกษาตอนต้น</span><span data-lang-en>Lower Secondary</span></div>
+                <div class="edu-gpa">GPA 2.91 / 4.00</div>
+              </div>
+            </div>
+            <div class="edu-item">
+              <div class="edu-year">2556<br/>2013</div>
+              <div class="edu-main">
+                <div class="edu-school"><span data-lang-th>โรงเรียนสายไหม (ทัสนารมย์อนุสรณ์)</span><span data-lang-en>Sai Mai School (Tussanarom Anusorn)</span></div>
+                <div class="edu-level"><span data-lang-th>ระดับประถมศึกษา</span><span data-lang-en>Primary Education</span></div>
+                <div class="edu-gpa">GPA 2.63 / 4.00</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- EXPERIENCE / ACTIVITIES -->
+        <div class="section">
+          <div class="sec-label" data-translate="กิจกรรมและประสบการณ์ / Activities & Experience"><span data-lang-th>กิจกรรมและประสบการณ์</span><span data-lang-en>Activities & Experience</span></div>
+          <div class="exp-list">
+
+            <div class="exp-item">
+              <div class="exp-header">
+                <div class="exp-title">
+                  <a href="รูปภาพต่างๆ/ใบจีน.jpg" target="_blank" style="color: var(--text); text-decoration: none; cursor: pointer; border-bottom: 1px dotted var(--accent);">
+                    <span data-lang-th>โครงการเรียนแลกเปลี่ยน ณ ประเทศจีน</span><span data-lang-en>Student Exchange Program — China</span>
+                  </a>
+                </div>
+                <div class="exp-date">Sep – Dec 2025</div>
+              </div>
+              <div class="exp-org">North Bangkok × NJCIT × SBAC · Nanjing, China</div>
+              <div class="exp-desc">ศึกษาด้านเทคโนโลยีและเครือข่ายที่ Nanjing Vocational College of Information Technology หลักสูตร 5G Communication Technology · Studied 5G technology and networking at NJCIT, Nanjing.</div>
+            </div>
+
+            <div class="exp-item">
+              <div class="exp-header">
+                <div class="exp-title">SBAC Startup Boot Camp 2025</div>
+                <div class="exp-date">2025</div>
+              </div>
+              <div class="exp-org">วิทยาลัยเทคโนโลยีสยามบริหารธุรกิจ (SBAC)</div>
+              <div class="exp-desc">เข้าร่วมการแข่งขัน Startup Boot Camp ระดับสถาบัน · Participated in institutional startup competition.</div>
+              <div class="exp-award">🏆 รองชนะเลิศ อันดับ 2 / 2nd Runner-Up</div>
+            </div>
+
+            <div class="exp-item">
+              <div class="exp-header">
+                <div class="exp-title">ตัวแทนแข่งขันฝีมือแรงงาน / World Skills Representative</div>
+                <div class="exp-date">9–12 ก.ค. 2567</div>
+              </div>
+              <div class="exp-org">World Skills Competition</div>
+              <div class="exp-desc">เป็นตัวแทนเข้าร่วมการแข่งขันฝีมือแรงงานระดับประเทศ · Selected as institutional representative for national skills competition.</div>
+            </div>
+
+            <div class="exp-item">
+              <div class="exp-header">
+                <div class="exp-title">Agoda Tech Camp Day — Workshop 3</div>
+                <div class="exp-date">20 มิ.ย. 2568</div>
+              </div>
+              <div class="exp-org">Agoda</div>
+              <div class="exp-desc">เข้าร่วม Workshop 3 ในงาน Agoda Tech Camp Day · Attended Workshop 3 at Agoda Tech Camp Day event.</div>
+            </div>
+
+            <div class="exp-item">
+              <div class="exp-header">
+                <div class="exp-title">SBAC Hackathon Tech 2567</div>
+                <div class="exp-date">2567</div>
+              </div>
+              <div class="exp-org">SBAC</div>
+              <div class="exp-desc">เข้าร่วมการแข่งขัน Hackathon ระดับสถาบัน · Participated in institutional hackathon competition.</div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- PROJECTS -->
+        <div class="section">
+          <div class="sec-label" data-translate="โปรเจกต์ / Projects">โปรเจกต์ / Projects</div>
+          <div class="proj-list">
+
+            <div class="proj-item">
+              <div class="proj-title">
+                <a href="thenightmare project.pdf" target="_blank" style="color: var(--text); text-decoration: none; border-bottom: 1px dotted var(--accent);">
+                  The Nightmare — 2D Horror Puzzle Game (โปรเจคจบ ปวช.3)
+                </a>
+              </div>
+              <div class="proj-desc">เกม Horror 2D Side-Scrolling ผสม Puzzle ส่งเสริมการเรียนรู้ระบบเลขฐาน สำหรับอายุ 15 ปีขึ้นไป พัฒนาด้วย Construct3 และ MediBang PaintPro เผยแพร่บน itch.io · 2D horror-puzzle game teaching number systems, developed as ปวช.3 graduation project with 2 teammates.</div>
+              <div class="stack-row">
+                <span class="stag">Construct3</span>
+                <span class="stag">MediBang PaintPro</span>
+                <span class="stag">2D Horror</span>
+                <span class="stag">Puzzle</span>
+                <span class="stag">itch.io</span>
+              </div>
+            </div>
+
+            <div class="proj-item">
+              <div class="proj-title">IoT Project — Arduino Application</div>
+              <div class="proj-desc">โปรเจกต์ประยุกต์ใช้ Arduino สำหรับงาน IoT จากการอบรมหลักสูตร 30 ชั่วโมง · Arduino-based IoT project from 30-hour training course at Department of Skill Development.</div>
+              <div class="stack-row">
+                <span class="stag">Arduino</span>
+                <span class="stag">IoT</span>
+                <span class="stag">Hardware</span>
+              </div>
+            </div>
+
+            <div class="proj-item">
+              <div class="proj-title">Web Development — IT Portfolio</div>
+              <div class="proj-desc">พัฒนาเว็บพอร์ตโฟลิโอส่วนตัวด้วย HTML, CSS, JavaScript · Personal portfolio website built with HTML, CSS, and JavaScript.</div>
+              <div class="stack-row">
+                <span class="stag">HTML</span>
+                <span class="stag">CSS</span>
+                <span class="stag">JavaScript</span>
+                <span class="stag">PHP</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div><!-- /col-main -->
+
+      <!-- ===== SIDE COLUMN ===== -->
+      <div class="col-side">
+
+        <!-- SKILLS -->
+        <div class="section">
+          <div class="sec-label" data-translate="ทักษะ / Skills">ทักษะ / Skills</div>
+
+          <div class="skill-group">
+            <div class="skill-group-title" data-translate="Programming">Programming</div>
+            <div class="tags">
+              <span class="tag">HTML5</span>
+              <span class="tag">CSS3</span>
+              <span class="tag">PHP</span>
+              <span class="tag">Python</span>
+              <span class="tag">JavaScript</span>
+            </div>
+          </div>
+
+          <div class="skill-group" style="margin-top:1rem;">
+            <div class="skill-group-title" data-translate="Hardware &amp; IoT">Hardware &amp; IoT</div>
+            <div class="tags">
+              <span class="tag">Arduino</span>
+              <span class="tag">IoT</span>
+              <span class="tag">Networking</span>
+              <span class="tag">5G</span>
+            </div>
+          </div>
+
+          <div class="skill-group" style="margin-top:1rem;">
+            <div class="skill-group-title">IT Support</div>
+            <div class="tags">
+              <span class="tag">IT Support</span>
+              <span class="tag">System Admin</span>
+              <span class="tag">Troubleshoot</span>
+              <span class="tag">IT Security</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CERTIFICATES -->
+        <div class="section">
+          <div class="sec-label" data-translate="ใบรับรอง / Certificates">ใบรับรอง / Certificates</div>
+          <div class="cert-list">
+
+            <div class="cert-item">
+              <div class="cert-issuer">Google · Coursera</div>
+              <div class="cert-name" data-translate="Google IT Support Professional">Google IT Support Professional</div>
+              <div class="cert-date">17 Jul 2024 · 5 Courses</div>
+            </div>
+
+            <div class="cert-item">
+              <div class="cert-issuer">Google · Coursera</div>
+              <div class="cert-name">Google IT Automation with Python</div>
+              <div class="cert-date">19 Aug 2024 · 6 Courses</div>
+            </div>
+
+            <div class="cert-item">
+              <div class="cert-issuer">Google · Coursera</div>
+              <div class="cert-name">Google AI Essentials</div>
+              <div class="cert-date">17 Aug 2024</div>
+            </div>
+
+            <div class="cert-item">
+              <div class="cert-issuer">กรมพัฒนาฝีมือแรงงาน</div>
+              <div class="cert-name">Application of Arduino (30 hrs)</div>
+              <div class="cert-date">6–14 Aug 2024</div>
+            </div>
+
+            <div class="cert-item">
+              <div class="cert-issuer">Nanjing Vocational College of IT</div>
+              <div class="cert-name">5G Communication Technology</div>
+              <div class="cert-date">Sep – Dec 2025</div>
+            </div>
+
+            <div class="cert-item">
+              <div class="cert-issuer">Agoda · SBAC</div>
+              <div class="cert-name">Agoda Tech Camp Day Workshop 3</div>
+              <div class="cert-date">20 Jun 2025</div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- PERSONAL INFO -->
+        <div class="section">
+          <div class="sec-label" data-translate="ข้อมูลส่วนตัว / Personal">ข้อมูลส่วนตัว / Personal</div>
+          <table class="info-table">
+            <tr>
+              <td>DOB</td>
+              <td data-translate="30 มิ.ย. 2549<br/>June 30, 2006">30 มิ.ย. 2549<br/>June 30, 2006</td>
+            </tr>
+            <tr>
+              <td>Age</td>
+              <td data-translate="19 ปี / 19 years">19 ปี / 19 years</td>
+            </tr>
+            <tr>
+              <td>Nation.</td>
+              <td data-translate="ไทย / Thai">ไทย / Thai</td>
+            </tr>
+            <tr>
+              <td>Location</td>
+              <td data-translate="ลำลูกกา, ปทุมธานี">ลำลูกกา, ปทุมธานี</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- HOBBIES -->
+        <div class="section">
+          <div class="sec-label" data-translate="งานอดิเรก / Hobbies">งานอดิเรก / Hobbies</div>
+          <div class="hobby-list">
+            <span class="hobby" data-translate="เล่นกีต้าร์">เล่นกีต้าร์</span>
+            <span class="hobby" data-translate="ร้องเพลง">ร้องเพลง</span>
+            <span class="hobby" data-translate="อีสปอร์ต">อีสปอร์ต</span>
+            <span class="hobby" data-translate="ขับรถท่องเที่ยว">ขับรถท่องเที่ยว</span>
+          </div>
+        </div>
+
+      </div><!-- /col-side -->
+    </div><!-- /resume-body -->
+
+  </div><!-- /page -->
+
+  <script>
+    // Language switching functionality
+    const translations = {
+      // Section labels
+      'เกี่ยวกับฉัน / Summary': { th: 'เกี่ยวกับฉัน', en: 'Summary' },
+      'ประวัติการศึกษา / Education': { th: 'ประวัติการศึกษา', en: 'Education' },
+      'กิจกรรมและประสบการณ์ / Activities & Experience': { th: 'กิจกรรมและประสบการณ์', en: 'Activities & Experience' },
+      'โปรเจกต์ / Projects': { th: 'โปรเจกต์', en: 'Projects' },
+      'ทักษะ / Skills': { th: 'ทักษะ', en: 'Skills' },
+      'ใบรับรอง / Certificates': { th: 'ใบรับรอง', en: 'Certificates' },
+      'ข้อมูลส่วนตัว / Personal': { th: 'ข้อมูลส่วนตัว', en: 'Personal' },
+      'งานอดิเรก / Hobbies': { th: 'งานอดิเรก', en: 'Hobbies' },
+
+      // Summary text
+      'นักศึกษา <strong>ปวส. สาขาเทคโนโลยีสารสนเทศ</strong> วิทยาลัยเทคโนโลยีสยามบริหารธุรกิจ (SBAC) GPA 3.80 มีทักษะด้าน IT Support, IoT (Arduino), และการพัฒนาเว็บไซต์ด้วย HTML/CSS/PHP ผ่านการอบรม Google Professional Certificate 3 หลักสูตร และเคยเป็นตัวแทนแข่งขัน World Skills รวมถึงได้รับรางวัลรองชนะเลิศอันดับ 2 จาก SBAC Startup Boot Camp 2025<br /><br /><span style="color:var(--text-3);font-size:0.82rem;">IT student majoring in Information Technology at SBAC with GPA 3.80. Skilled in IT Support, IoT (Arduino), and web development (HTML/CSS/PHP). Completed 3 Google Professional Certificates and represented Thailand in World Skills competition.</span>': {
+        th: 'นักศึกษา <strong>ปวส. สาขาเทคโนโลยีสารสนเทศ</strong> วิทยาลัยเทคโนโลยีสยามบริหารธุรกิจ (SBAC) GPA 3.80 มีทักษะด้าน IT Support, IoT (Arduino), และการพัฒนาเว็บไซต์ด้วย HTML/CSS/PHP ผ่านการอบรม Google Professional Certificate 3 หลักสูตร และเคยเป็นตัวแทนแข่งขัน World Skills รวมถึงได้รับรางวัลรองชนะเลิศอันดับ 2 จาก SBAC Startup Boot Camp 2025',
+        en: 'IT student majoring in Information Technology at SBAC with GPA 3.80. Skilled in IT Support, IoT (Arduino), and web development (HTML/CSS/PHP). Completed 3 Google Professional Certificates and represented Thailand in World Skills competition. Also won 2nd Runner-Up at SBAC Startup Boot Camp 2025.'
+      },
+
+      // Education
+      'วิทยาลัยเทคโนโลยีสยามบริหารธุรกิจ (SBAC)<br/><span style="font-weight:400;font-size:0.8rem;color:var(--text-2);">Siam Business Administration Technological College</span>': { th: 'วิทยาลัยเทคโนโลยีสยามบริหารธุรกิจ (SBAC)', en: 'Siam Business Administration Technological College (SBAC)' },
+      'ประกาศนียบัตรวิชาชีพชั้นสูง (ปวส.) · สาขาเทคโนโลยีสารสนเทศ<br/>Higher Vocational Certificate · Information Technology': { th: 'ประกาศนียบัตรวิชาชีพชั้นสูง (ปวส.) · สาขาเทคโนโลยีสารสนเทศ', en: 'Higher Vocational Certificate · Information Technology' },
+      'GPA 3.80 / 4.00 · หน่วยกิตสะสม 105': { th: 'GPA 3.80 / 4.00 · หน่วยกิตสะสม 105', en: 'GPA 3.80 / 4.00 · 105 Credits' },
+      'โรงเรียนสายไหม (ทัสนารมย์อนุสรณ์)': { th: 'โรงเรียนสายไหม (ทัสนารมย์อนุสรณ์)', en: 'Sai Mai School (Tussanarom Anusorn)' },
+      'ระดับมัธยมศึกษาตอนต้น / Lower Secondary': { th: 'ระดับมัธยมศึกษาตอนต้น', en: 'Lower Secondary' },
+      'ระดับประถมศึกษา / Primary Education': { th: 'ระดับประถมศึกษา', en: 'Primary Education' },
+
+      // Activities
+      'โครงการเรียนแลกเปลี่ยน ณ ประเทศจีน<br/><span style="font-weight:400;font-size:0.82rem;">Student Exchange Program — China</span>': { th: 'โครงการเรียนแลกเปลี่ยน ณ ประเทศจีน', en: 'Student Exchange Program — China' },
+      'ศึกษาด้านเทคโนโลยีและเครือข่ายที่ Nanjing Vocational College of Information Technology พร้อมพัฒนาเกม "The Nightmare" ระหว่างโครงการ · Studied technology and networking; developed The Nightmare game during the program.': { th: 'ศึกษาด้านเทคโนโลยีและเครือข่ายที่ Nanjing Vocational College of Information Technology พร้อมพัฒนาเกม "The Nightmare" ระหว่างโครงการ', en: 'Studied technology and networking at Nanjing Vocational College of Information Technology; developed The Nightmare game during the program.' },
+      'เข้าร่วมการแข่งขัน Startup Boot Camp ระดับสถาบัน · Participated in institutional startup competition.': { th: 'เข้าร่วมการแข่งขัน Startup Boot Camp ระดับสถาบัน', en: 'Participated in institutional startup competition.' },
+      '🏆 รองชนะเลิศ อันดับ 2 / 2nd Runner-Up': { th: '🏆 รองชนะเลิศ อันดับ 2', en: '🏆 2nd Runner-Up' },
+      'ตัวแทนแข่งขันฝีมือแรงงาน / World Skills Representative': { th: 'ตัวแทนแข่งขันฝีมือแรงงาน', en: 'World Skills Representative' },
+      'เป็นตัวแทนเข้าร่วมการแข่งขันฝีมือแรงงานระดับประเทศ · Selected as institutional representative for national skills competition.': { th: 'เป็นตัวแทนเข้าร่วมการแข่งขันฝีมือแรงงานระดับประเทศ', en: 'Selected as institutional representative for national skills competition.' },
+      'เข้าร่วม Workshop 3 ในงาน Agoda Tech Camp Day · Attended Workshop 3 at Agoda Tech Camp Day event.': { th: 'เข้าร่วม Workshop 3 ในงาน Agoda Tech Camp Day', en: 'Attended Workshop 3 at Agoda Tech Camp Day event.' },
+      'เข้าร่วมการแข่งขัน Hackathon ระดับสถาบัน · Participated in institutional hackathon competition.': { th: 'เข้าร่วมการแข่งขัน Hackathon ระดับสถาบัน', en: 'Participated in institutional hackathon competition.' },
+
+      // Projects
+      'เกม 2D Horror เล่นจากด้านข้าง พัฒนาระหว่างโครงการแลกเปลี่ยนที่จีน เผยแพร่บน itch.io · 2D horror side-scroller developed during China exchange program, published on itch.io.': { th: 'เกม 2D Horror เล่นจากด้านข้าง พัฒนาระหว่างโครงการแลกเปลี่ยนที่จีน เผยแพร่บน itch.io', en: '2D horror side-scroller developed during China exchange program, published on itch.io.' },
+      'โปรเจกต์ประยุกต์ใช้ Arduino สำหรับงาน IoT จากการอบรมหลักสูตร 30 ชั่วโมง · Arduino-based IoT project from 30-hour training course at Department of Skill Development.': { th: 'โปรเจกต์ประยุกต์ใช้ Arduino สำหรับงาน IoT จากการอบรมหลักสูตร 30 ชั่วโมง', en: 'Arduino-based IoT project from 30-hour training course at Department of Skill Development.' },
+      'พัฒนาเว็บพอร์ตโฟลิโอส่วนตัวด้วย HTML, CSS, JavaScript · Personal portfolio website built with HTML, CSS, and JavaScript.': { th: 'พัฒนาเว็บพอร์ตโฟลิโอส่วนตัวด้วย HTML, CSS, JavaScript', en: 'Personal portfolio website built with HTML, CSS, and JavaScript.' },
+
+      // Skills
+      'Programming': { th: 'การเขียนโปรแกรม', en: 'Programming' },
+      'Hardware & IoT': { th: 'ฮาร์ดแวร์และ IoT', en: 'Hardware & IoT' },
+
+      // Certificates
+      'ใบรับรอง / Certificates': { th: 'ใบรับรอง', en: 'Certificates' },
+      'Google Professional Cloud Architect': { th: 'Google Professional Cloud Architect', en: 'Google Professional Cloud Architect' },
+      'Google Associate Cloud Engineer': { th: 'Google Associate Cloud Engineer', en: 'Google Associate Cloud Engineer' },
+      'Google IT Support Professional': { th: 'Google IT Support Professional', en: 'Google IT Support Professional' },
+      'Application of Arduino (30 hrs)': { th: 'การประยุกต์ใช้ Arduino (30 ชั่วโมง)', en: 'Application of Arduino (30 hrs)' },
+      '5G Communication Technology': { th: 'เทคโนโลยีการสื่อสาร 5G', en: '5G Communication Technology' },
+      'Agoda Tech Camp Day Workshop 3': { th: 'Agoda Tech Camp Day Workshop 3', en: 'Agoda Tech Camp Day Workshop 3' },
+
+      // Personal
+      '30 มิ.ย. 2549<br/>June 30, 2006': { th: '30 มิ.ย. 2549', en: 'June 30, 2006' },
+      '19 ปี / 19 years': { th: '19 ปี', en: '19 years' },
+      'ไทย / Thai': { th: 'ไทย', en: 'Thai' },
+      'ลำลูกกา, ปทุมธานี': { th: 'ลำลูกกา, ปทุมธานี', en: 'Lam Luk Ka, Pathum Thani' },
+
+      // Hobbies
+      'เล่นกีต้าร์': { th: 'เล่นกีต้าร์', en: 'Playing guitar' },
+      'ร้องเพลง': { th: 'ร้องเพลง', en: 'Singing' },
+      'อีสปอร์ต': { th: 'อีสปอร์ต', en: 'E-sports' },
+      'ขับรถท่องเที่ยว': { th: 'ขับรถท่องเที่ยว', en: 'Driving tours' },
+
+      // Back link
+      'กลับหน้าพอร์ตโฟลิโอ / Back to Portfolio': { th: 'กลับหน้าพอร์ตโฟลิโอ', en: 'Back to Portfolio' },
+      'บันทึกเป็น PDF / Save as PDF': { th: 'บันทึกเป็น PDF', en: 'Save as PDF' },
+
+      // Contact
+      '091-021-1765': { th: '091-021-1765', en: '091-021-1765' },
+      'ลำลูกกา, ปทุมธานี': { th: 'ลำลูกกา, ปทุมธานี', en: 'Lam Luk Ka, Pathum Thani' },
+    };
+
+    function setLanguage(lang) {
+      // Save to localStorage
+      localStorage.setItem('resume-lang', lang);
+
+      // Update button states
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.lang === lang) {
+          btn.classList.add('active');
+        }
+      });
+
+      // Update document lang attribute
+      document.documentElement.lang = lang;
+
+      // Update all translatable elements
+      document.querySelectorAll('[data-translate]').forEach(el => {
+        const key = el.dataset.translate;
+        if (translations[key] && translations[key][lang]) {
+          el.innerHTML = translations[key][lang];
+        }
+      });
+    }
+
+    // Initialize language on load
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('resume-lang') || 'th';
+      setLanguage(savedLang);
+    });
+  </script>
+</body>
+</html>

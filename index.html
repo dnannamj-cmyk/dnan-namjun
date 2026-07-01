@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Portfolio — ดีนาน น้ำจันทร์ | IT Student, SBAC" />
+  <title>Dnan Namjan — IT Portfolio</title>
+
+  <!-- Google Fonts: Prompt (main) + JetBrains Mono (code) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Prompt:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Extra styles for new sections (Certificates, Activities) -->
+  <style>
+    /* ---- CERTIFICATES SECTION ---- */
+    #certificates { background: var(--bg); }
+
+    .certs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .cert-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+
+    .cert-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-3px);
+    }
+
+    .cert-issuer {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .cert-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.4;
+    }
+
+    .cert-date {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-tertiary);
+      margin-top: auto;
+      padding-top: 0.5rem;
+    }
+
+    /* ---- ACTIVITIES SECTION ---- */
+    #activities { background: var(--bg-alt); }
+
+    .activities-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .activity-item {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .activity-item:last-child { border-bottom: none; }
+
+    .activity-date {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+      padding: 1.25rem 1.5rem;
+      border-right: 1px solid var(--border);
+      background: rgba(255,255,255,0.01);
+      line-height: 1.6;
+      display: flex;
+      align-items: center;
+    }
+
+    .activity-info {
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .activity-title {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .activity-desc {
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    .activity-badge {
+      display: inline-flex;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--green);
+      background: rgba(74, 222, 128, 0.08);
+      border: 1px solid rgba(74, 222, 128, 0.2);
+      border-radius: 3px;
+      padding: 0.15rem 0.5rem;
+      margin-top: 0.35rem;
+      width: fit-content;
+    }
+
+    /* ---- EDUCATION TIMELINE (in About section) ---- */
+    .edu-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-top: 2.5rem;
+      border-left: 2px solid var(--border);
+      padding-left: 1.5rem;
+    }
+
+    .edu-item {
+      position: relative;
+      padding-bottom: 1.75rem;
+    }
+
+    .edu-item:last-child { padding-bottom: 0; }
+
+    .edu-item::before {
+      content: '';
+      position: absolute;
+      left: -1.75rem;
+      top: 0.4rem;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--bg);
+      box-shadow: 0 0 0 2px var(--accent);
+    }
+
+    .edu-year {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.2rem;
+    }
+
+    .edu-school {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .edu-level {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      font-weight: 300;
+    }
+
+    .edu-gpa {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-tertiary);
+      margin-top: 0.2rem;
+    }
+
+    /* Responsive additions */
+    @media (max-width: 900px) {
+      .certs-grid { grid-template-columns: 1fr 1fr; }
+      .activity-item { grid-template-columns: 1fr; }
+      .activity-date {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 0.75rem 1.25rem;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .certs-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       SCROLL PROGRESS BAR
+  ============================================================ -->
+  <div id="progress-bar"></div>
+
+  <!-- ============================================================
+       NAVIGATION
+  ============================================================ -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="#home" class="nav-logo">
+        <span class="logo-bracket">&lt;</span>DN<span class="logo-bracket">/&gt;</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#about"        class="nav-link">about</a></li>
+        <li><a href="#skills"       class="nav-link">skills</a></li>
+        <li><a href="#work"         class="nav-link">work</a></li>
+        <li><a href="#certificates" class="nav-link">certs</a></li>
+        <li><a href="#activities"   class="nav-link">activity</a></li>
+        <li><a href="#contact"      class="nav-link">contact</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobile-menu">
+      <a href="#about"        class="mobile-link">about</a>
+      <a href="#skills"       class="mobile-link">skills</a>
+      <a href="#work"         class="mobile-link">work</a>
+      <a href="#certificates" class="mobile-link">certs</a>
+      <a href="#activities"   class="mobile-link">activity</a>
+      <a href="#contact"      class="mobile-link">contact</a>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       HERO
+  ============================================================ -->
+  <section id="home" class="hero">
+    <div class="hero-grid-bg"></div>
+
+    <div class="hero-content">
+      <p class="hero-greeting reveal">
+        <span class="mono-tag">$ whoami</span>
+      </p>
+      <h1 class="hero-title reveal delay-1">
+        Hi, I'm <span class="accent">Dnan Namjan</span>.<br />
+        I <span id="typed-text" class="accent-dim"></span><span class="cursor-blink">|</span>
+      </h1>
+      <p class="hero-sub reveal delay-2">
+        นักศึกษา IT (ปวส.) · IT Support · IoT · Web Developer<br />
+        วิทยาลัยเทคโนโลยีสยามบริหารธุรกิจ (SBAC) · ปทุมธานี, ไทย
+      </p>
+      <div class="hero-actions reveal delay-3">
+        <a href="#work" class="btn-primary">ดูผลงาน</a>
+        <a href="resume_preview.html" class="btn-ghost">
+          <span class="mono-tag">[</span> Resume <span class="mono-tag">]</span>
+        </a>
+      </div>
+      <div class="status-badge reveal delay-4">
+        <span class="status-dot"></span>
+        พร้อมรับงาน / ฝึกงาน
+      </div>
+    </div>
+
+    <!-- Floating code card -->
+    <div class="hero-code-card reveal delay-2">
+      <div class="code-card-header">
+        <span class="dot red"></span>
+        <span class="dot yellow"></span>
+        <span class="dot green"></span>
+        <span class="code-filename">profile.js</span>
+      </div>
+      <pre class="code-card-body"><code><span class="kw">const</span> <span class="var">dnan</span> = {
+  <span class="key">name</span>:    <span class="str">"Dnan Namjan"</span>,
+  <span class="key">nickname</span>:<span class="str">"Zee"</span>,
+  <span class="key">school</span>:  <span class="str">"SBAC"</span>,
+  <span class="key">gpa</span>:     <span class="bool">3.80</span>,
+  <span class="key">focus</span>:   [<span class="str">"IT"</span>, <span class="str">"IoT"</span>],
+  <span class="key">ready</span>(): <span class="bool">true</span>
+};</code></pre>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ABOUT
+  ============================================================ -->
+  <section id="about">
+    <div class="section-inner">
+      <div class="section-label reveal">
+        <span class="mono-tag">01.</span> About Me
+      </div>
+
+      <div class="about-grid">
+        <!-- Text side -->
+        <div class="about-text">
+          <h2 class="section-title reveal">
+            ดีนาน น้ำจันทร์<br />
+            <span class="accent">นักศึกษา IT</span>
+          </h2>
+
+          <p class="body-text reveal delay-1">
+            ผมชื่อ <strong>ดีนาน น้ำจันทร์ (ซี)</strong> นักศึกษา ปวส. สาขา
+            เทคโนโลยีสารสนเทศ ที่ <strong>วิทยาลัยเทคโนโลยีสยามบริหารธุรกิจ (SBAC)</strong>
+            มีความสนใจด้าน IT Support, IoT และการพัฒนาเว็บไซต์
+          </p>
+          <p class="body-text reveal delay-2">
+            ผ่านการอบรมจาก <strong>Google</strong> หลายหลักสูตร ทั้ง IT Support,
+            IT Automation with Python และ AI Essentials รวมถึงเคยเป็นตัวแทนแข่งขัน
+            <strong>World Skills</strong> และได้รับรางวัลจาก <strong>SBAC Startup Boot Camp</strong>
+          </p>
+
+          <!-- Personal Info Grid -->
+          <div class="about-meta reveal delay-3">
+            <div class="meta-item">
+              <span class="meta-label">ชื่อ-สกุล</span>
+              <span class="meta-value">ดีนาน น้ำจันทร์</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">ชื่อเล่น</span>
+              <span class="meta-value">ซี</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">วันเกิด</span>
+              <span class="meta-value">30 มิ.ย. 2549</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">อายุ</span>
+              <span class="meta-value">19 ปี</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">สถาบัน</span>
+              <span class="meta-value">SBAC</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">สาขา</span>
+              <span class="meta-value">เทคโนโลยีสารสนเทศ</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">ระดับ</span>
+              <span class="meta-value">ปวส. (2567)</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">GPA สะสม</span>
+              <span class="meta-value">3.80 / 4.00</span>
+            </div>
+          </div>
+
+          <!-- Education Timeline -->
+          <div class="edu-timeline reveal delay-4">
+            <div class="edu-item">
+              <div class="edu-year">2556</div>
+              <div class="edu-school">โรงเรียนสายไหม (ทัสนารมย์อนุสรณ์)</div>
+              <div class="edu-level">ระดับประถมศึกษา</div>
+              <div class="edu-gpa">GPA: 2.63</div>
+            </div>
+            <div class="edu-item">
+              <div class="edu-year">2564</div>
+              <div class="edu-school">โรงเรียนสายไหม (ทัสนารมย์อนุสรณ์)</div>
+              <div class="edu-level">ระดับมัธยมศึกษาตอนต้น</div>
+              <div class="edu-gpa">GPA: 2.91</div>
+            </div>
+            <div class="edu-item">
+              <div class="edu-year">2567</div>
+              <div class="edu-school">วิทยาลัยเทคโนโลยีสยามบริหารธุรกิจ</div>
+              <div class="edu-level">ระดับอาชีวศึกษา (ปวส.) · สาขาเทคโนโลยีสารสนเทศ</div>
+              <div class="edu-gpa">GPA: 3.80 · หน่วยกิตสะสม 105</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats side -->
+        <div class="about-stats reveal delay-2">
+          <div class="stat-card">
+            <div class="stat-num">3.80<span class="accent"></span></div>
+            <div class="stat-label">GPA สะสม</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">5<span class="accent">+</span></div>
+            <div class="stat-label">ใบรับรอง</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">3<span class="accent">+</span></div>
+            <div class="stat-label">Projects</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">2<span class="accent">x</span></div>
+            <div class="stat-label">รางวัล</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SKILLS
+  ============================================================ -->
+  <section id="skills" class="section-alt">
+    <div class="section-inner">
+      <div class="section-label reveal">
+        <span class="mono-tag">02.</span> Skills &amp; Tech Stack
+      </div>
+      <h2 class="section-title reveal">เทคโนโลยีที่ใช้งานได้</h2>
+
+      <div class="skills-container">
+        <div class="skill-group reveal">
+          <h3 class="skill-group-title">
+            <span class="mono-tag">//</span> Programming
+          </h3>
+          <div class="skill-tags">
+            <span class="tag">HTML5</span>
+            <span class="tag">CSS3</span>
+            <span class="tag">PHP</span>
+            <span class="tag">Python</span>
+            <span class="tag">JavaScript</span>
+          </div>
+        </div>
+
+        <div class="skill-group reveal delay-1">
+          <h3 class="skill-group-title">
+            <span class="mono-tag">//</span> Hardware &amp; IoT
+          </h3>
+          <div class="skill-tags">
+            <span class="tag">Arduino</span>
+            <span class="tag">IoT</span>
+            <span class="tag">สายแลน</span>
+            <span class="tag">Networking</span>
+            <span class="tag">5G Technology</span>
+          </div>
+        </div>
+
+        <div class="skill-group reveal delay-2">
+          <h3 class="skill-group-title">
+            <span class="mono-tag">//</span> IT Support
+          </h3>
+          <div class="skill-tags">
+            <span class="tag">IT Support</span>
+            <span class="tag">System Admin</span>
+            <span class="tag">Networking</span>
+            <span class="tag">Troubleshooting</span>
+            <span class="tag">IT Security</span>
+          </div>
+        </div>
+
+        <div class="skill-group reveal delay-3">
+          <h3 class="skill-group-title">
+            <span class="mono-tag">//</span> Other &amp; Hobbies
+          </h3>
+          <div class="skill-tags">
+            <span class="tag">Game Dev</span>
+            <span class="tag">AI Essentials</span>
+            <span class="tag">เล่นกีต้าร์</span>
+            <span class="tag">อีสปอร์ต</span>
+            <span class="tag">ร้องเพลง</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       WORK / PROJECTS
+  ============================================================ -->
+  <section id="work">
+    <div class="section-inner">
+      <div class="section-label reveal">
+        <span class="mono-tag">03.</span> Projects
+      </div>
+      <h2 class="section-title reveal">สิ่งที่ผมสร้าง</h2>
+
+      <div class="projects-grid">
+
+        <!-- Project 1: The Nightmare (Featured) -->
+        <article class="project-card featured reveal">
+          <div class="project-visual pv-purple">
+            <div class="pv-shape"></div>
+          </div>
+          <div class="project-info">
+            <div class="project-header">
+              <span class="project-tag">Featured · Game Dev</span>
+              <div class="project-links">
+                <a href="https://itch.io" target="_blank" title="itch.io" class="icon-link">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3.13 1.338C2.08 1.96.02 4.328 0 6.668v1.002c0 1.255.671 2.36 1.67 2.96v.17c0 2.329 1.01 4.565 2.69 6.124C6.04 18.487 8.49 19.5 12 19.5c3.508 0 5.957-1.013 7.64-2.576 1.68-1.56 2.69-3.795 2.69-6.124v-.17c1-.6 1.67-1.705 1.67-2.96V6.668c-.02-2.34-2.08-4.707-3.13-5.33C19.34.72 16.09 0 12 0S4.66.72 3.13 1.337zm1.62 2.052C6.1 2.67 9.02 2.148 12 2.148c2.98 0 5.9.522 7.25 1.242.97.534 2.27 2.083 2.6 3.228H2.15c.33-1.145 1.63-2.694 2.6-3.228zM2 8.67h20v.998c0 .689-.372 1.3-.97 1.629v.18c0 2.04-.863 3.924-2.28 5.226C17.332 17.984 15.16 18.85 12 18.85c-3.16 0-5.332-.866-6.75-2.147C3.833 15.4 2.97 13.518 2.97 11.477v-.18C2.372 10.97 2 10.357 2 9.668V8.67z"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <h3 class="project-title">
+              <a href="thenightmare project.pdf" target="_blank" style="color: inherit; text-decoration: none; border-bottom: 2px solid rgba(56,189,248,0.3); transition: border-color 0.2s;">The Nightmare — Horror Game</a>
+            </h3>
+            <p class="project-desc">
+              เกม 2D Horror Side Scrolling ที่พัฒนาขึ้นระหว่างการเรียนเพื่อเป็นโปรเจกต์จบ 
+              ตั้งแต่เดือนกันยายน–ธันวาคม 2025
+              เผยแพร่บน itch.io
+            </p>
+            <div class="project-stack">
+              <span class="stack-tag">Game Dev</span>
+              <span class="stack-tag">2D Graphics</span>
+              <span class="stack-tag">Horror</span>
+              <span class="stack-tag">itch.io</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 2: IoT -->
+        <article class="project-card reveal delay-1">
+          <div class="project-visual pv-teal">
+            <div class="pv-shape"></div>
+          </div>
+          <div class="project-info">
+            <div class="project-header">
+              <span class="project-tag">IoT</span>
+              <div class="project-links"></div>
+            </div>
+            <h3 class="project-title">IoT Project — Arduino</h3>
+            <p class="project-desc">
+              โปรเจกต์ IoT ด้วย Arduino จากการอบรมหลักสูตร Application of Arduino (30 ชั่วโมง)
+              กับกรมพัฒนาฝีมือแรงงาน และหลักสูตรระยะสั้น Basic IoT ที่ SBAC
+            </p>
+            <div class="project-stack">
+              <span class="stack-tag">Arduino</span>
+              <span class="stack-tag">IoT</span>
+              <span class="stack-tag">Hardware</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 3: Web (HTML/CSS/PHP) -->
+        <article class="project-card reveal delay-2">
+          <div class="project-visual pv-blue">
+            <div class="pv-shape"></div>
+          </div>
+          <div class="project-info">
+            <div class="project-header">
+              <span class="project-tag">Web</span>
+              <div class="project-links"></div>
+            </div>
+            <h3 class="project-title">Web Project — IT Support</h3>
+            <p class="project-desc">
+              พัฒนาเว็บไซต์ด้วย HTML, CSS และ PHP ตามที่เรียนในสาขาเทคโนโลยีสารสนเทศ
+              พร้อมงาน IT Support และ Network Administration
+            </p>
+            <div class="project-stack">
+              <span class="stack-tag">HTML</span>
+              <span class="stack-tag">CSS</span>
+              <span class="stack-tag">PHP</span>
+              <span class="stack-tag">Networking</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CERTIFICATES
+  ============================================================ -->
+  <section id="certificates">
+    <div class="section-inner">
+      <div class="section-label reveal">
+        <span class="mono-tag">04.</span> Certificates
+      </div>
+      <h2 class="section-title reveal">ใบรับรองและวุฒิบัตร</h2>
+
+      <div class="certs-grid">
+
+        <div class="cert-card reveal">
+          <div class="cert-issuer">Google · Coursera</div>
+          <div class="cert-name">Google IT Support Professional Certificate</div>
+          <div class="cert-date">17 Jul 2024 · 5 Courses</div>
+        </div>
+
+        <div class="cert-card reveal delay-1">
+          <div class="cert-issuer">Google · Coursera</div>
+          <div class="cert-name">Google IT Automation with Python Professional Certificate</div>
+          <div class="cert-date">19 Aug 2024 · 6 Courses</div>
+        </div>
+
+        <div class="cert-card reveal delay-2">
+          <div class="cert-issuer">Google · Coursera</div>
+          <div class="cert-name">Google AI Essentials</div>
+          <div class="cert-date">17 Aug 2024</div>
+        </div>
+
+        <div class="cert-card reveal delay-3">
+          <div class="cert-issuer">กรมพัฒนาฝีมือแรงงาน · กระทรวงแรงงาน</div>
+          <div class="cert-name">Application of Arduino (30 Hours)</div>
+          <div class="cert-date">6–10 Aug 2024 · ให้ไว้ 14 Aug 2024</div>
+        </div>
+
+        <div class="cert-card reveal delay-4">
+          <div class="cert-issuer">Nanjing Vocational College of IT</div>
+          <div class="cert-name">5G Communication Technology — Certificate of Completion</div>
+          <div class="cert-date">Sep 11 – Dec 12, 2025</div>
+        </div>
+
+        <div class="cert-card reveal delay-1">
+          <div class="cert-issuer">SBAC</div>
+          <div class="cert-name">Agoda Tech Camp Day — Workshop 3</div>
+          <div class="cert-date">20 มิ.ย. 2568</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ACTIVITIES
+  ============================================================ -->
+  <section id="activities">
+    <div class="section-inner">
+      <div class="section-label reveal">
+        <span class="mono-tag">05.</span> Activities
+      </div>
+      <h2 class="section-title reveal">กิจกรรมและประสบการณ์</h2>
+
+      <div class="activities-list reveal delay-1">
+
+        <div class="activity-item">
+          <div class="activity-date">Sep – Dec 2025</div>
+          <div class="activity-info">
+            <div class="activity-title">
+              <a href="รูปภาพต่างๆ/ใบจีน.jpg" target="_blank" style="color: inherit; text-decoration: none; border-bottom: 1.5px solid rgba(56,189,248,0.3); transition: border-color 0.2s; cursor: pointer;">
+                เรียนแลกเปลี่ยนที่จีน — North Bangkok × NJCIT × SBAC
+              </a>
+            </div>
+            <div class="activity-desc">
+              โครงการแลกเปลี่ยนด้านเทคโนโลยีและเครือข่าย ณ เมืองนานกิง
+              สาธารณรัฐประชาชนจีน พัฒนาเกม "The Nightmare" ระหว่างโครงการ
+            </div>
+          </div>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-date">20 มิ.ย. 2568</div>
+          <div class="activity-info">
+            <div class="activity-title">Agoda Tech Camp Day</div>
+            <div class="activity-desc">
+              ได้เข้ารับการอบรม Workshop 3 ในงาน Agoda Tech Camp Day
+            </div>
+          </div>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-date">2025</div>
+          <div class="activity-info">
+            <div class="activity-title">SBAC Start Up Boot Camp 2025</div>
+            <div class="activity-desc">เข้าร่วมการแข่งขัน Startup Bootcamp</div>
+            <div class="activity-badge">🏆 รางวัลรองชนะเลิส อันดับ 2</div>
+          </div>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-date">9–12 ก.ค. 2567</div>
+          <div class="activity-info">
+            <div class="activity-title">ตัวแทนแข่งขันฝีมือแรงงาน (World Skills)</div>
+            <div class="activity-desc">
+              เป็นตัวแทนเข้าร่วมการแข่งขันฝีมือแรงงานระดับ World Skills
+            </div>
+          </div>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-date">6–9 ส.ค. 2567</div>
+          <div class="activity-info">
+            <div class="activity-title">อบรมหลักสูตรระยะสั้น — Basic IoT</div>
+            <div class="activity-desc">
+              เข้าร่วมการอบรม Basic Internet of Things ณ ห้อง Future Maker Lab, SBAC
+            </div>
+          </div>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-date">6–10 ส.ค. 2567</div>
+          <div class="activity-info">
+            <div class="activity-title">อบรม Application of Arduino — กรมพัฒนาฝีมือแรงงาน</div>
+            <div class="activity-desc">
+              ฝึกอบรมหลักสูตรการประยุกต์ใช้งาน Arduino จำนวน 30 ชั่วโมง
+              กับกรมพัฒนาฝีมือแรงงาน กระทรวงแรงงาน
+            </div>
+          </div>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-date">SBAC 2567</div>
+          <div class="activity-info">
+            <div class="activity-title">SBAC Hackathon Tech 2567</div>
+            <div class="activity-desc">
+              เข้าร่วมงานแข่งขัน SBAC Hackathon Tech ประจำปี 2567
+            </div>
+          </div>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-date">15 ส.ค. 2566</div>
+          <div class="activity-info">
+            <div class="activity-title">อบรมหลักสูตรระยะสั้น — Network (สายแลน)</div>
+            <div class="activity-desc">
+              เข้าร่วมการอบรมหลักสูตรระยะสั้นเกี่ยวกับการเดินสายแลนและระบบเครือข่าย
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CONTACT
+  ============================================================ -->
+  <section id="contact" class="section-alt">
+    <div class="section-inner contact-inner">
+      <div class="section-label reveal">
+        <span class="mono-tag">06.</span> Get In Touch
+      </div>
+      <h2 class="section-title reveal">ติดต่อผม</h2>
+      <p class="contact-desc reveal delay-1">
+        สนใจร่วมงาน มีโปรเจกต์ หรืออยากพูดคุย — ทักมาได้เลยครับ ยินดีตอบทุกข้อความ
+      </p>
+
+      <!-- Email with copy button -->
+      <div class="contact-email-row reveal delay-2">
+        <span class="contact-email-text" id="email-text">dnanan234@gmail.com</span>
+        <button class="btn-copy" id="copy-btn" title="Copy email">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="9" y="9" width="13" height="13" rx="2"/>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+          </svg>
+          <span id="copy-label">Copy</span>
+        </button>
+      </div>
+
+      <!-- Social / contact links -->
+      <div class="social-links reveal delay-3">
+        <a href="https://github.com/" target="_blank" class="social-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.09.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.645.35-1.087.636-1.337-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+          </svg>
+          GitHub
+        </a>
+        <a href="https://www.facebook.com/" target="_blank" class="social-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+          </svg>
+          กากีนัง กากีนัง
+        </a>
+        <a href="resume_preview.html" target="_blank" class="social-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14,2 14,8 20,8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <polyline points="10,9 9,9 8,9"/>
+          </svg>
+          Resume
+        </a>
+        <a href="tel:091-021-1765" class="social-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.23h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.91A16 16 0 0 0 15.09 16l.91-.85a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+          </svg>
+          091-021-1765
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-logo">
+        <span class="logo-bracket">&lt;</span>DN<span class="logo-bracket">/&gt;</span>
+      </span>
+      <span class="footer-text">
+        Designed &amp; Built by <strong>ดีนาน น้ำจันทร์</strong> · 2025
+      </span>
+      <button class="back-to-top" id="back-to-top" title="Back to top">↑ top</button>
+    </div>
+  </footer>
+
+  <!-- Main JavaScript -->
+  <script src="main.js"></script>
+</body>
+</html>
